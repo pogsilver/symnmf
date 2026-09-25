@@ -22,9 +22,11 @@ Given a set of points, SymNMF derives a clustering by factorizing a similarity-d
 
    $$W = D^{-1/2} A D^{-1/2}$$
 
-4. **Optimize $H$** — find $H \geq 0$ minimizing $\|W - HH^T\|_F^2$ via the multiplicative update rule\
- $H_{ij} \leftarrow H_{ij} \left(1 - \beta + \beta \, \frac{(WH)_{ij}}{(HH^TH)_{ij}}\right)$ with $\beta = 0.5$,\
-  run until convergence — defined as $\|H^{(t+1)} - H^{(t)}\|_F^2 < 10^{-4}$ — or after 300 iterations.
+4. **Optimize $H$** — find a non-negative $H$ minimizing the squared Frobenius-norm error between $W$ and $HH^T$, using the multiplicative update rule:
+
+$H_{ij} \leftarrow H_{ij}(1 - \beta + \beta \cdot (WH)_{ij} / (HH^TH)_{ij})$, with $\beta = 0.5$.
+
+Runs until the squared Frobenius-norm change between iterations drops below $10^{-4}$, or after 300 iterations.
 
 ## Repository structure
 
