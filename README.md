@@ -10,23 +10,23 @@ Based on: Da Kuang, Chris Ding, and Haesun Park. *Symmetric Nonnegative Matrix F
 
 Given a set of points, SymNMF derives a clustering by factorizing a similarity-derived matrix into a non-negative, lower-rank association matrix `H`, and assigning each point to the cluster it associates with most strongly. The pipeline:
 
-1. **Similarity matrix $A$** — Gaussian similarity between every pair of points:
+**1. Similarity matrix `A`** — Gaussian similarity between every pair of points (`A_ii = 0`):
 
-   $$A_{ij} = \exp\left(-\frac{\|x_i - x_j\|^2}{2}\right) \text{ for } i \neq j, \quad A_{ii} = 0$$
+$A_{ij} = \exp\left(-\frac{\|x_i - x_j\|^2}{2}\right) \text{ for } i \neq j$
 
-2. **Diagonal degree matrix $D$**:
+**2. Diagonal degree matrix `D`**:
 
-   $$D_{ii} = \sum_j A_{ij}$$
+$D_{ii} = \sum_j A_{ij}$
 
-3. **Normalized similarity $W$** — the graph Laplacian:
+**3. Normalized similarity `W`** — the graph Laplacian:
 
-   $$W = D^{-1/2} A D^{-1/2}$$
+$W = D^{-1/2} A D^{-1/2}$
 
-4. **Optimize $H$** — find a non-negative $H$ minimizing the squared Frobenius-norm error between $W$ and $HH^T$, using the multiplicative update rule:
+**4. Optimize `H`** — find a non-negative `H` minimizing the squared Frobenius-norm error between `W` and `HH^T`, using mixing parameter `β = 0.5`:
 
-$H_{ij} \leftarrow H_{ij}(1 - \beta + \beta \cdot (WH)_{ij} / (HH^TH)_{ij})$, with $\beta = 0.5$.
+$H_{ij} \leftarrow H_{ij}\left(1 - \beta + \beta \cdot \frac{(WH)_{ij}}{(HH^TH)_{ij}}\right)$
 
-Runs until the squared Frobenius-norm change between iterations drops below $10^{-4}$, or after 300 iterations.
+Runs until the squared Frobenius-norm change between iterations drops below `1e-4`, or after 300 iterations.
 
 ## Repository structure
 
