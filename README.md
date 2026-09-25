@@ -22,12 +22,11 @@ $D_{ii} = \sum_j A_{ij}$
 
 $W = D^{-1/2} A D^{-1/2}$
 
-**4. Optimize `H`** — find a non-negative `H` minimizing the squared Frobenius-norm error between `W` and `HH^T`, using mixing parameter `β = 0.5`:
+**4. Optimize `H`** — find a non-negative `H` minimizing the squared Frobenius-norm error between `W` and `HH^T`, using mixing parameter `β = 0.5`. Writing `P = WH` and `Q = HH^TH`, `H` updates as:
 
-$H_{ij} \leftarrow H_{ij}\left(1 - \beta + \beta \cdot \frac{(WH)_{ij}}{(HH^TH)_{ij}}\right)$
+$H_{ij} \leftarrow H_{ij}\left(1 - \beta + \beta \cdot \frac{P_{ij}}{Q_{ij}}\right)$
 
 Runs until the squared Frobenius-norm change between iterations drops below `1e-4`, or after 300 iterations.
-
 ## Repository structure
 
 | File | Description |
